@@ -24,6 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-u^%^nz3b&9y(g9^x=(+g5pn(ac(-46=82g%fcr6rcrm$2eul4='
 
+
+AUTH_USER_MODEL = 'canchas.Player'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 

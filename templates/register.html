@@ -8,27 +8,55 @@
                 <h1>Bienvenidos a ProyectoCanchas</h1>
                 <form action="" method = 'POST'>
                     {% csrf_token %}
-                    <div class="form-group">
-                        <label for="">Usuario:</label>
-                        {{form.username}}
-                        {% comment %} <input type="text" class='form-control' name='username' id='username' placeholder ='Aqui tu usuario'> {% endcomment %}
+                        <div class="form-group">
+                            <label for="">Usuario:</label>
+                            {{form.username}}
+                            {% comment %} <input type="text" class='form-control' name='username' id='username' placeholder ='Aqui tu usuario'> {% endcomment %}
 
-                    </div>
-                    <br>
-                    <div class="form-group">
-                        <label for="">Contraseña:</label>
-                        {{form.password1}}
-                        {% comment %} <input type="password" class='form-control' name='password' id='password' placeholder ='Aqui tu contraseña'> {% endcomment %}
-                    </div>
-                    <br>
-                    <div class="form-group">
-                        <label for="">Repetir contraseña:</label>
-                        {{form.password2}}
-                        {% comment %} <input type="password" class='form-control' name='re-password' id='re-password' placeholder ='Aqui tu contraseña'> {% endcomment %}
-                    </div>
-                    <br>                    
-                    <button class="btn btn-success" type='submit'>Acceder</button>
-                    <br>               
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="Name">Nombre:</label>
+                            {{form.first_name}}
+                            {% comment %} <input type="text" class='form-control' name='Name' id='Name' placeholder ='Aqui tu nombre'> {% endcomment %}
+
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="Last-name">Apellido:</label>
+                            {{form.last_name}}
+                            {% comment %} <input type="text" class='form-control' name='Last-name' id='Last-name' placeholder ='Aqui tu apellido'> {% endcomment %}
+
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="age">Nacimiento:</label>
+                            {{form.age}}
+                            {% comment %} <input type="text" class='form-control' name='age' id='age' placeholder ='Aqui tu nacimiento'> {% endcomment %}
+
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="sex">Sexo:</label>
+                            {{form.sex}}
+                            {% comment %} <input type="text" class='form-control' name='sex' id='sex' placeholder ='Aqui tu usuario'> {% endcomment %}
+
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="">Contraseña:</label>
+                            {{form.password1}}
+                            {% comment %} <input type="password" class='form-control' name='password' id='password' placeholder ='Aqui tu contraseña'> {% endcomment %}
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="">Repetir contraseña:</label>
+                            {{form.password2}}
+                            {% comment %} <input type="password" class='form-control' name='re-password' id='re-password' placeholder ='Aqui tu contraseña'> {% endcomment %}
+                        </div>
+                        <br>                    
+                        <button class="btn btn-success" type='submit'>Acceder</button>
+                        <br>               
                     
                 </form>
             </div>

@@ -1,21 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from shortuuid.django_fields import ShortUUIDField
 
 
-class Player(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=50)
-    dni = models.IntegerField()
-    age = models.DateField(auto_now=True)
-    SEX_OPTION = (
-        ('1','Female'),
-        ('2', 'Male')
-    )
-    sex = models.CharField(max_length=50,choices=SEX_OPTION)
-
-    def __str__(self):
-        return self.name
+class Player(AbstractUser):
+    pass
 
 
 class Sports(models.Model):

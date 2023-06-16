@@ -9,7 +9,7 @@ from django.views.generic.edit import CreateView
 from django.urls import reverse, reverse_lazy
 from django.views import generic
 from .models import Sports, Player, Day, Shift, Reservation, Court
-from .forms import ReservationForm
+from .forms import ReservationForm, RegistroForm
 
 
 
@@ -73,15 +73,17 @@ class CreateReservation2(generic.CreateView):
 
 
 class CustomLoginView(LoginView):
+
     def form_invalid(self, form):
         messages.error(self.request, 'Credenciales no validas.')        
         return super().form_invalid(form)
     
 
 class SingUpView(CreateView):
-    form_class = UserCreationForm
+    form_class = RegistroForm
     success_url = reverse_lazy('canchas:login')
     template_name = 'register.html'
+    
 
     def form_valid(self, form):        
         response = super().form_valid(form)

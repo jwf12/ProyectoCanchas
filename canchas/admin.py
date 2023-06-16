@@ -2,17 +2,6 @@ from django.contrib import admin
 from .models import Player, Sports, Court, Day, Shift, Reservation, Payment
 # Register your models here.
 
-class PlayerAdmin(admin.ModelAdmin):
-    model = Player
-    list_display=(
-        'user',
-        'name',
-        'dni',
-        'age',
-        'sex'
-    )
-    list_filter=('name',)
-    search_fields=('name','dni')
 
 
 class SportAdmin(admin.ModelAdmin):
@@ -80,7 +69,7 @@ class PaymentAdmin(admin.ModelAdmin):
     
 
 
-admin.site.register(Player, PlayerAdmin)
+admin.site.register(Player)
 admin.site.register(Sports, SportAdmin)
 admin.site.register(Court, CourtAdmin)
 admin.site.register(Day, DayAdmin)
