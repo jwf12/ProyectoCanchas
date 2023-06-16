@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    
+    <div class="container d-flex"> 
+        <div class="row justify-content-center">
+            <div class="col">
+                <h1>Bienvenidos a ProyectoCanchas</h1>
+                <form action="" method='POST'>
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <label for="">Usuario:</label>
+                        <input type="text" class='form-control' name='username' id='username' placeholder ='Aqui tu usuario'>
+                    </div>
+
+                    <br>
+                    <div class="form-group">
+                        <label for="">Contraseña:</label>
+                        <input type="password" class='form-control' name='password' id='password' placeholder ='Aqui tu contraseña'>
+                    </div>
+
+                    <br>                    
+                    <button class="btn btn-success" type='submit'>Acceder</button>
+                    <a href="{% url 'canchas:register' %}">Si no tenes usuario, registrate</a>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

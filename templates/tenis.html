@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+
+            <div class="day my-4 d-flex">
+              {% if is_paginated %}
+                  {% for day in page_obj %}
+                      <h4 class="mx-3">{{ day.day }}</h4>
+                  {% endfor %}
+                  
+                  {% if page_obj.has_previous %}
+                      <a class="mx-1" href="?page={{ page_obj.previous_page_number }}&day={{ current_day.pk }}">previous</a>
+                  {% endif %}
+                  
+                  {% if page_obj.has_next %}
+                      <a class="mx-1" href="?page={{ page_obj.next_page_number }}&day={{ current_day.pk }}">next</a>
+                  {% endif %}
+              {% endif %}
+              </div>
+              
+              <div class="reservation border">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th scope="col">Horario</th>
+                      <th scope="col">Cancha</th>
+                      <th scope="col">Tarifa</th>
+                      <th scope="col">Reserva</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for shift in shifts %}
+
+                      {% if shift.court_shift.sport_court.name == 'Tenis' %}
+                        
+                      
+                        <tr>
+                          <td>{{ shift.hour }}</td>
+                          <td>{{ shift.court_shift.name_court }}</td>
+                          <td>{{ shift.court_shift.rate }}</td>
+                          <td><a href="{% url 'canchas:reservation2'%}">Reserva</a></td>
+                        </tr>
+
+
+                      {% endif %}
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            
+            
+
+
+
+              <footer>
+                <nav class="navbar navbar-lg navbar-dark bg-dark fixed-bottom">
+                    <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#chatMenu" aria-controls="chatMenu" aria-expanded="false" aria-label="Toggle chat menu">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <h3 class="text-light">Chat Tenis</h3>
+                    <div class="collapse navbar-collapse" id="chatMenu">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <textarea id="chat-log" class="form-control" rows="3"></textarea>
+                            </li>
+                            <li class="nav-item">
+                                <input id="chat-message-input" type="text" class="form-control" placeholder="Type a message">
+                            </li>
+                            <li class="nav-item">
+                                <button id="chat-message-submit" type="button" class="btn btn-primary">Send</button>
+                            </li>
+                        </ul>
+        
+                        <script>
+                            const roomName = "{{ room_name }}";  // Obtener el nombre de la sala del contexto
+        
+                            const chatSocket = new WebSocket(
+                                'ws://'
+                                + window.location.host
+                                + '/ws/'
+                                + roomName
+                                + '/'
+                            );
+                    
+                            chatSocket.onmessage = function(e) {
+                                const data = JSON.parse(e.data);
+                                document.querySelector('#chat-log').value += (data.message + '\n');
+                            };
+                    
+                            chatSocket.onclose = function(e) {
+                                console.error('Chat socket closed unexpectedly');
+                            };
+                    
+                            document.querySelector('#chat-message-input').focus();
+                            document.querySelector('#chat-message-input').onkeyup = function(e) {
+                                if (e.keyCode === 13) {  // enter, return
+                                    document.querySelector('#chat-message-submit').click();
+                                }
+                            };
+                    
+                            document.querySelector('#chat-message-submit').onclick = function(e) {
+                                const messageInputDom = document.querySelector('#chat-message-input');
+                                const message = messageInputDom.value;
+                                chatSocket.send(JSON.stringify({
+                                    'message': message
+                                }));
+                                messageInputDom.value = '';
+                            };
+                        </script>
+                    </div>
+                </nav>
+            </footer>
+
+            
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

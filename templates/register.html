@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    
+    <div class="container d-flex"> 
+        <div class="row justify-content-center">
+            <div class="col">
+                <h1>Bienvenidos a ProyectoCanchas</h1>
+                <form action="" method = 'POST'>
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="">Usuario:</label>
+                        {{form.username}}
+                        {% comment %} <input type="text" class='form-control' name='username' id='username' placeholder ='Aqui tu usuario'> {% endcomment %}
+
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="">Contraseña:</label>
+                        {{form.password1}}
+                        {% comment %} <input type="password" class='form-control' name='password' id='password' placeholder ='Aqui tu contraseña'> {% endcomment %}
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="">Repetir contraseña:</label>
+                        {{form.password2}}
+                        {% comment %} <input type="password" class='form-control' name='re-password' id='re-password' placeholder ='Aqui tu contraseña'> {% endcomment %}
+                    </div>
+                    <br>                    
+                    <button class="btn btn-success" type='submit'>Acceder</button>
+                    <br>               
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

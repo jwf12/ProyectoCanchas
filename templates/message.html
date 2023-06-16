@@ -1,0 +1,62 @@
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+{% if messages %}
+  {% for message in messages %}
+
+      {% if message.tags == "success" %}
+        <script>
+          Swal.fire({
+          "title" : "Acción Lograda Correctamente",
+          "text" : "{{message}}",
+          "icon" : "success"
+          })
+      </script>
+
+      {% endif %}
+      {% if message.tags ==  "error" %}
+
+        <script>
+          Swal.fire({
+          "title" : "Inconveniente",
+          "text" : "{{message}}",
+          "icon" : "warning"
+          })
+      </script>
+      {% endif %}
+
+
+  {% endfor %}
+
+{% endif %}
+
+{% comment %} {% for message in messages %}
+  <div class="mt-5 alert {% if message.tags == 'success'%}alert-success{%else%}alert-danger{%endif%}">
+    {{ message }}
+    <button type="button" class="close" data-bs-dismiss="alert">X</button>
+  </div>
+{% endfor %} {% endcomment %}
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+{% if messages %}
+  {% for message in messages %}
+    {% if message.tags == 'success' %}
+        <script>
+          Swal.fire({
+            'title' : 'Ok',
+            'text' : '{{ message }}',
+            'icon' : 'success',
+          })
+        </script>
+    {% elif message.tags == 'error' %}
+      <script>
+        Swal.fire({
+          'title' : 'Upsss!',
+          'text' : '{{ message }}',
+          'icon' : 'warning',
+        })
+      </script>
+    {% endif %}
+  {% endfor %}
+{% endif %}
