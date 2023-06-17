@@ -28,6 +28,7 @@ class IndexView(generic.ListView):
         context['players'] = Player.objects.all()
         shifts = Shift.objects.all().order_by('hour')
         context['room_name'] = self.kwargs['room_name']
+        
         current_day = self.get_queryset().first() #Aca esta el problema
 
         filtered_shifts = shifts.filter(day_shift=current_day, status='1')

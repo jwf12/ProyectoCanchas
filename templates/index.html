@@ -74,9 +74,8 @@
                   </ul>
   
                   <script>
-                    const USER_ID = $('#logged-in-user').val()
-                      const roomName = "{{ room_name }}";  // Obtener el nombre de la sala del contexto
-  
+                     const roomName = "{{ room_name }}";  // Obtener el nombre de la sala del contexto
+        
                       const chatSocket = new WebSocket(
                           'ws://'
                           + window.location.host
@@ -84,30 +83,24 @@
                           + roomName
                           + '/'
                       );
-                      chatSocket.onopen = async function(e){
-                        let data = {
-                          'sent_by': USER_ID
-                        }
-                        data  = JSON.stringify(data)
-                        socket.send(data)
-                      }
+
                       chatSocket.onmessage = function(e) {
-                          const data = JSON.parse(e.data);
-                          let sent_by_id = data['sent_by']
-                          document.querySelector('#chat-log').value += (sent_by_id + data.message + '\n');
+                          const data = JSON.parse(e.data);                          
+                          const message = data.message;  // Obtener el contenido del mensaje
+                          document.querySelector('#chat-log').value += ( message + '\n');
                       };
-              
+
                       chatSocket.onclose = function(e) {
                           console.error('Chat socket closed unexpectedly');
                       };
-              
+
                       document.querySelector('#chat-message-input').focus();
                       document.querySelector('#chat-message-input').onkeyup = function(e) {
                           if (e.keyCode === 13) {  // enter, return
                               document.querySelector('#chat-message-submit').click();
                           }
                       };
-              
+
                       document.querySelector('#chat-message-submit').onclick = function(e) {
                           const messageInputDom = document.querySelector('#chat-message-input');
                           const message = messageInputDom.value;
