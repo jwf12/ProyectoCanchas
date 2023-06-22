@@ -3,17 +3,13 @@ from django.forms.models import BaseModelForm
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib import messages
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.views.generic.edit import CreateView
 from django.urls import reverse, reverse_lazy
 from django.views import generic
 from .models import Sports, Player, Day, Shift, Reservation, Court
 from .forms import ReservationForm, RegistroForm
-
-
-
-
 
 
 class IndexView(generic.ListView):
@@ -29,7 +25,7 @@ class IndexView(generic.ListView):
         shifts = Shift.objects.all().order_by('hour')
         context['room_name'] = self.kwargs['room_name']
         
-        current_day = self.get_queryset().first() #Aca esta el problema
+        current_day = self.get_queryset().last() #Aca esta el problema
 
         filtered_shifts = shifts.filter(day_shift=current_day, status='1')
 
@@ -38,27 +34,18 @@ class IndexView(generic.ListView):
         return context
 
 
-
-class CreateReservation(generic.DetailView):
-    model =Shift
-    template_name = 'reservation.html'
-    context_object_name ='shift'
-
-
-
-class CreateReservation2(generic.CreateView):
+class CreateReservation2(generic.CreateView, LoginRequiredMixin):
     model = Reservation
     template_name = 'reservation.html'
-    context_object_name ='reservation'
+    context_object_name = 'reservation'
     form_class = ReservationForm
     success_url = reverse_lazy('canchas:index')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['sports'] = Sports.objects.all()
-        context['courts'] = Court.objects.all()
-        context['shifts'] = Shift.objects.all().order_by('hour')
-        context['players'] = Player.objects.all()
+        context['player'] = self.request.user
+        shift_id = self.kwargs['shift_id']
+        context['shift'] = Shift.objects.get(id=shift_id)
         return context
 
     def form_valid(self, form):
@@ -66,8 +53,10 @@ class CreateReservation2(generic.CreateView):
         messages.success(self.request, 'Reserva creada')
         return response
 
-    def form_invalid(self, form: BaseModelForm) -> HttpResponse:
+    def form_invalid(self, form):
+        messages.error(self.request, 'error')
         return super().form_invalid(form)
+
 
 
 

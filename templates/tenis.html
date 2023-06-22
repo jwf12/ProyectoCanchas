@@ -42,7 +42,7 @@
                           <td>{{ shift.hour }}</td>
                           <td>{{ shift.court_shift.name_court }}</td>
                           <td>{{ shift.court_shift.rate }}</td>
-                          <td><a href="{% url 'canchas:reservation2'%}">Reserva</a></td>
+                          <td><a href="{% url 'canchas:reservation2' shift_id=shift.id %}">Reserva</a></td>
                         </tr>
 
 

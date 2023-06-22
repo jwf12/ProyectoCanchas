@@ -10,40 +10,37 @@
                 <div class="card-header">
                   <h4>Reservation information</h4>
                 </div>
-                <form action="{% url 'canchas:reservation2' %}" method = 'POST'>
+                <form action="{% url 'canchas:reservation2' shift.id %}" method="POST">
                     {% csrf_token %}
-                    <div class="modal-body text-center">
-
-                        <div class="form-group">
-                            <label for="sport_res" name="sport_res">Deporte:</label>
-                            {{form.sport_res}}
-                        </div>
+                    <div class="modal-body text-center d-flex justify-content-center">
                         
-                        <div class="form-group">
-                            <label for="court_res" name="court_res">Cancha:</label>
-                            {{form.court_res}}
-                        </div>
-
-                        <div class="form-group">
-                            <label for="shift_res" name="shift_res">Hora:</label>
-                            {{form.shift_res}}
-                        </div>   
-
-                        <div class="form-group">
-                            <label for="court_res" name="court_res">Jugador:</label>
-                            {{form.player_res}}
-                        </div>
-        
                         
-                            
+                       <table>
+                        <tr class="border-bottom my-2">
+                            <td><label for="sport_res">Deporte:</label></td>
+                            <td>{{ form.sport_res.value|default:shift.court_shift.sport_court.name }}</td>
+                        </tr>
+                        <tr class="border-bottom my-2">
+                            <td><label for="court_res">Cancha:</label></td>
+                            <td>{{ form.court_res.value|default:shift.court_shift.name_court }}</td>
+                        </tr>
+
+                        <tr class="border-bottom my-2">
+                            <td><label for="shift_res">Hora:</label></td>
+                            <td>{{ form.shift_res.value|default:shift.hour }}</td>
+                        </tr>
+                        
+                        <tr class="border-bottom my-2">
+                            <td><label for="player_res">Hora:</label></td>
+                            <td>{{ form.player_res.value|default:player.username }}</td>
+                        </tr>
+                       </table>
+                        
+                        
                     </div>
-        
-        
                     <div class="modal-footer d-flex justify-content-center">
-                      
-                      <button type="submit" class="btn btn-primary">Reserve</button>
+                        <button type="submit" class="btn btn-primary">Reservar</button>
                     </div>
-        
                 </form>
                     
                     
@@ -57,58 +54,7 @@
 
 <!-- Modal: editar Passanger-->
 
-<!-- 
-<div class="modal fade" id="updateModal_" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel"><i class="bi bi-journal-bookmark"></i> Reserva:</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        
-    
-        <form action="{% url 'canchas:reservation2' %}" method = 'POST'>
-            {% csrf_token %}
-            <div class="modal-body">
-                
-                <div class="form-group m-3">
-                    <label for="sport_res">Deporte:</label>
-                    <input type="text" value = '{{shift.court_shift.sport_court.name}}' class="form-control" id="sport_res" name="sport_res">
-                </div>
-                <div class="form-group m-3">
-                    <label for="court_res">Cancha:</label>
-                    <input type="text" value = '{{shift.court_shift.name_court}}' class="form-control" id="court_res" name="court_res">
-                </div>
-                <div class="form-group m-3">
-                    <label for="shift_res">Hora:</label>
-                    <input type="text" value = '{{shift.hour}}' class="form-control" id="shift_res" name="shift_res">
-                </div>
-                <div class="form-group m-3">
-                    <label for="player_res">PLayer:</label>
-                    <input type="text" value = '' class="form-control" id="shift_res" name="shift_res">
-                </div>
-                <div class="form-group m-3">
-                    <label for="number">Num:</label>
-                    <input type="text" value = '' class="form-control" id="shift_res" name="shift_res">
-                </div>
 
-
-                
-                    
-            </div>
-
-
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Reserve</button>
-            </div>
-
-        </form>
-
-        
-      </div>
-    </div>
-</div> -->
 
 
 

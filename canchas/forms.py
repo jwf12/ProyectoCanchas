@@ -11,7 +11,6 @@ class ReservationForm(forms.ModelForm):
         'shift_res',
         'player_res',
     ]
-        
 
 
 class RegistroForm(UserCreationForm):
