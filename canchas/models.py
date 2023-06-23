@@ -30,13 +30,9 @@ class Court(models.Model):
         return self.name_court
 
 
-class Day(models.Model):
-    day = models.DateField()
-
-
 class Shift(models.Model):
     court_shift = models.ForeignKey(Court, on_delete=models.CASCADE)
-    day_shift = models.ForeignKey(Day, on_delete=models.CASCADE)
+    day_shift = models.DateField()
     hour = models.CharField(max_length=5)
     STATUS_SHIFT=(
             ('1', 'Disponible'),

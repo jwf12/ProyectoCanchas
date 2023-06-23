@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Player, Sports, Court, Day, Shift, Reservation, Payment
+from .models import Player, Sports, Court, Shift, Reservation, Payment
 # Register your models here.
 
 
@@ -27,10 +27,6 @@ class CourtAdmin(admin.ModelAdmin):
         'court_type')
     
 
-class DayAdmin(admin.ModelAdmin):
-    list_display=('day',)
-    list_filter=('day',)
-    search_fields=('day',)
 
 
 class ShiftAdmin(admin.ModelAdmin):
@@ -72,7 +68,7 @@ class PaymentAdmin(admin.ModelAdmin):
 admin.site.register(Player)
 admin.site.register(Sports, SportAdmin)
 admin.site.register(Court, CourtAdmin)
-admin.site.register(Day, DayAdmin)
+
 admin.site.register(Shift, ShiftAdmin)
 admin.site.register(Reservation, ReservationAdmin)
 admin.site.register(Payment, PaymentAdmin)

@@ -1,26 +1,23 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
+
 
 {% block content %}
 
 <div class="container">
     <div class="row">
         <div class="col">
+            <h6>Buscar turno por fecha:</h6>
 
-            <div class="day my-4 d-flex">
-              {% if is_paginated %}
-                  {% for day in page_obj %}
-                      <h4 class="mx-3">{{ day.day }}</h4>
-                  {% endfor %}
-                  
-                  {% if page_obj.has_previous %}
-                      <a class="mx-1" href="?page={{ page_obj.previous_page_number }}&day={{ current_day.pk }}">previous</a>
-                  {% endif %}
-                  
-                  {% if page_obj.has_next %}
-                      <a class="mx-1" href="?page={{ page_obj.next_page_number }}&day={{ current_day.pk }}">next</a>
-                  {% endif %}
-              {% endif %}
-              </div>
+            <form action="{% url 'canchas:tenis'%}" method="get">
+                {% csrf_token %}
+                
+                {% render_field myFilter.form.day_shift type="date" min=today %}
+
+                <input type="submit" />              
+                
+
+            </form>
               
               <div class="reservation border">
                 <table class="table table-bordered">
@@ -29,23 +26,20 @@
                       <th scope="col">Horario</th>
                       <th scope="col">Cancha</th>
                       <th scope="col">Tarifa</th>
+                      <th scope="col">Dia</th>
                       <th scope="col">Reserva</th>
                     </tr>
                   </thead>
                   <tbody>
                     {% for shift in shifts %}
-
                       {% if shift.court_shift.sport_court.name == 'Tenis' %}
-                        
-                      
-                        <tr>
-                          <td>{{ shift.hour }}</td>
-                          <td>{{ shift.court_shift.name_court }}</td>
-                          <td>{{ shift.court_shift.rate }}</td>
-                          <td><a href="{% url 'canchas:reservation2' shift_id=shift.id %}">Reserva</a></td>
-                        </tr>
-
-
+                          <tr>
+                            <td>{{ shift.hour }}</td>
+                            <td>{{ shift.court_shift.name_court }}</td>
+                            <td>{{ shift.court_shift.rate }}</td>
+                            <td>{{ shift.day_shift }}</td>
+                            <td><a href="{% url 'canchas:reservation2' shift_id=shift.id %}">Reserva</a></td>
+                          </tr>
                       {% endif %}
                     {% endfor %}
                   </tbody>
