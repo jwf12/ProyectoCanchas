@@ -6,13 +6,13 @@ from django.contrib.auth.forms import UserCreationForm
 #Form para creacion de reserva
 class ReservationForm(forms.ModelForm):
     class Meta:
-        model=Reservation
-        fields=[
-        'sport_res',
-        'court_res',
-        'shift_res',
-        'player_res',
-    ]
+        model = Reservation
+        fields = [
+            'sport_res',
+            'court_res',
+            'shift_res',
+            'player_res',
+        ]
 
 
 #Creacion de usuario

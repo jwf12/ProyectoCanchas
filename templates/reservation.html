@@ -12,8 +12,7 @@
                 </div>
                 <form action="{% url 'canchas:reservation2' shift.id %}" method="POST">
                     {% csrf_token %}
-                    <div class="modal-body text-center d-flex justify-content-center">
-                        
+                    <div class="modal-body text-center d-flex justify-content-center">                        
                         
                        <table>
                         <tr class="border-bottom my-2">
@@ -34,8 +33,7 @@
                             <td><label for="player_res" id="player_res">Jugador:</label></td>
                             <td>{{ form.player_res.value|default:player.username }}</td>
                         </tr>
-                       </table>
-                        
+                       </table>                        
                         
                     </div>
                     <div class="modal-footer d-flex justify-content-center">

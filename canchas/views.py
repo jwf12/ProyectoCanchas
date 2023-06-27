@@ -53,6 +53,17 @@ class CreateReservation2(generic.CreateView, LoginRequiredMixin):
     form_class = ReservationForm
     success_url = reverse_lazy('canchas:index')
 
+    def get_initial(self, **kwargs):
+        initial = super(CreateReservation2, self).get_initial(**kwargs)
+        shift_id = self.kwargs['shift_id']
+        shift = Shift.objects.get(pk=shift_id)
+        initial['sport_res'] = shift.court_shift.sport_court.name
+        initial['court_res'] = shift.court_shift.name_court
+        initial['shift_res'] = shift.hour
+        initial['player_res'] = self.request.user
+        print('HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa')
+        return initial
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['player'] = self.request.user
@@ -61,17 +72,25 @@ class CreateReservation2(generic.CreateView, LoginRequiredMixin):
         return context
 
     def form_valid(self, form):
-        form.instance.sport_res =  form.cleaned_data['sport_res']
-        form.instance.court_res =  form.cleaned_data['court_res']
-        form.instance.shift_res =  form.cleaned_data['shift_res']
-        form.instance.player_res =  form.cleaned_data['player_res']
+        shift_id = self.kwargs['shift_id']
+        shift = Shift.objects.get(pk=shift_id)
+
+        form.instance.sport_res = shift.court_shift.sport_court
+        form.instance.court_res = shift.court_shift
+        form.instance.shift_res = shift.hour
+        form.instance.player_res = self.request.user
         response = super().form_valid(form)
         messages.success(self.request, 'Reserva creada')
         return response
-
+    
     def form_invalid(self, form):
+        shift_id = self.kwargs['shift_id']
+        shift = Shift.objects.get(pk=shift_id)
         messages.error(self.request, 'error')
-        print(self.request)
+        print(shift.court_shift.sport_court.name)
+        print(shift.court_shift.name_court)
+        print(shift.hour)
+        print(self.request.user)
         return super().form_invalid(form)
 
 
