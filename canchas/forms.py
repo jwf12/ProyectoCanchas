@@ -15,6 +15,7 @@ class ReservationForm(forms.ModelForm):
         ]
 
 
+
 #Creacion de usuario
 class RegistroForm(UserCreationForm):
     first_name = forms.CharField(label='Name', required=True)

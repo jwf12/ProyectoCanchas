@@ -55,17 +55,18 @@ class CreateReservation2(generic.CreateView, LoginRequiredMixin):
         context['shift'] = Shift.objects.get(id=shift_id)
         return context
     
-    def get_initial(self, **kwargs):
-        initial = super(CreateReservation2, self).get_initial(**kwargs)
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
         shift_id = self.kwargs['shift_id']
         shift = Shift.objects.get(pk=shift_id)
-        initial['sport_res'] = shift.court_shift.sport_court.name
-        initial['court_res'] = shift.court_shift.name_court
-        initial['shift_res'] = shift.hour
-        initial['player_res'] = self.request.user
-        print('HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa')
-        print(shift_id)
-        return initial
+        kwargs['initial'] = {
+            'sport_res': shift.court_shift.sport_court,
+            'court_res': shift.court_shift,
+            'shift_res': shift,
+            'player_res': self.request.user,
+        }
+        return kwargs
 
     def form_valid(self, form):
         response = super().form_valid(form)
