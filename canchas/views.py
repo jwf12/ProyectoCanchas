@@ -1,19 +1,14 @@
-from typing import Any, Dict
-from django.forms.models import BaseModelForm
-from django.http import HttpResponse
-from django.shortcuts import render
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.views.generic.edit import CreateView
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 from django.views import generic
 from .models import Sports, Player,  Shift, Reservation, Court
 from .forms import ReservationForm, RegistroForm
 from .filters import SearchFilter
 from datetime import date
 
-from django.utils.decorators import method_decorator
 
 
 class IndexView(generic.ListView):
@@ -53,6 +48,13 @@ class CreateReservation2(generic.CreateView, LoginRequiredMixin):
     form_class = ReservationForm
     success_url = reverse_lazy('canchas:index')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['player'] = self.request.user
+        shift_id = self.kwargs['shift_id']
+        context['shift'] = Shift.objects.get(id=shift_id)
+        return context
+    
     def get_initial(self, **kwargs):
         initial = super(CreateReservation2, self).get_initial(**kwargs)
         shift_id = self.kwargs['shift_id']
@@ -62,40 +64,18 @@ class CreateReservation2(generic.CreateView, LoginRequiredMixin):
         initial['shift_res'] = shift.hour
         initial['player_res'] = self.request.user
         print('HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa')
+        print(shift_id)
         return initial
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['player'] = self.request.user
-        shift_id = self.kwargs['shift_id']
-        context['shift'] = Shift.objects.get(id=shift_id)
-        return context
-
     def form_valid(self, form):
-        shift_id = self.kwargs['shift_id']
-        shift = Shift.objects.get(pk=shift_id)
-
-        form.instance.sport_res = shift.court_shift.sport_court
-        form.instance.court_res = shift.court_shift
-        form.instance.shift_res = shift.hour
-        form.instance.player_res = self.request.user
         response = super().form_valid(form)
         messages.success(self.request, 'Reserva creada')
         return response
     
+
     def form_invalid(self, form):
-        shift_id = self.kwargs['shift_id']
-        shift = Shift.objects.get(pk=shift_id)
         messages.error(self.request, 'error')
-        print(shift.court_shift.sport_court.name)
-        print(shift.court_shift.name_court)
-        print(shift.hour)
-        print(self.request.user)
         return super().form_invalid(form)
-
-
-
-
 
 
 class CustomLoginView(LoginView):

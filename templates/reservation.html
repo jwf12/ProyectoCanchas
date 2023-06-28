@@ -14,26 +14,7 @@
                     {% csrf_token %}
                     <div class="modal-body text-center d-flex justify-content-center">                        
                         
-                       <table>
-                        <tr class="border-bottom my-2">
-                            <td><label for="sport_res" id="sport_res">Deporte:</label></td>
-                            <td>{{ form.sport_res.value|default:shift.court_shift.sport_court.name }}</td>
-                        </tr>
-                        <tr class="border-bottom my-2">
-                            <td><label for="court_res" id="court_res">Cancha:</label></td>
-                            <td>{{ form.court_res.value|default:shift.court_shift.name_court }}</td>
-                        </tr>
-
-                        <tr class="border-bottom my-2">
-                            <td><label for="shift_res" id="shift_res">Hora:</label></td>
-                            <td>{{ form.shift_res.value|default:shift.hour }}</td>
-                        </tr>
-                        
-                        <tr class="border-bottom my-2">
-                            <td><label for="player_res" id="player_res">Jugador:</label></td>
-                            <td>{{ form.player_res.value|default:player.username }}</td>
-                        </tr>
-                       </table>                        
+                       {{form.as_p}}              
                         
                     </div>
                     <div class="modal-footer d-flex justify-content-center">
