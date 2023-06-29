@@ -1,14 +1,19 @@
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 from django.views import generic
+
+from utils.utils import reservation_status
 from .models import Sports, Player,  Shift, Reservation, Court
 from .forms import ReservationForm, RegistroForm
 from .filters import SearchFilter
 from datetime import date
-from utils.utils import reservation_status
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 
 
@@ -69,20 +74,55 @@ class CreateReservation2(generic.CreateView, LoginRequiredMixin):
             'player_res': self.request.user,
         }
         return kwargs
+    
+    def send_reservation_email(self):
+        shift_id = self.kwargs['shift_id']
+        shift = Shift.objects.get(pk=shift_id)
+
+        sport_res = shift.court_shift.sport_court
+        court_res = shift.court_shift
+        shift_res = shift
+        rate_res = shift.court_shift.rate
+        player_res = self.request.user
+        day_shift = shift.day_shift
+        subject = f'Reserva cancha de {shift.court_shift.sport_court}'
+
+        html_content = render_to_string('email.html', {
+        'sport_res': sport_res,
+        'court_res': court_res,
+        'shift_res': shift_res,
+        'rate_res': rate_res,
+        'player_res': player_res,
+        'day_shift': day_shift,
+    })
+        text_content = strip_tags(html_content)
+
+        email = EmailMultiAlternatives(
+            subject='Subject del correo',
+            body=text_content,
+            from_email=settings.EMAIL_HOST_USER,
+            to=['julianwf12@gmail.com']
+        )
+        email.attach_alternative(html_content, 'text/html')
+        email.send()
+
 
     def form_valid(self, form):
-        #change the reservation status to 'reservado', function in utils  ---- joymusdgacronxex
+        #change the reservation status to 'reservado', function in utils  ---- 
         shift_id = self.kwargs['shift_id']
         reservation_status(shift_id)
+
+        # sends an email when the reservation its completed to the owner of the court
+        self.send_reservation_email()
 
         response = super().form_valid(form)
         messages.success(self.request, 'Reserva creada')
         return response
     
-
     def form_invalid(self, form):
         messages.error(self.request, 'error')
         return super().form_invalid(form)
+
 
 
 class CustomLoginView(LoginView):

@@ -142,3 +142,12 @@ LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
 LOGOUT_REDIRECT_URL = '/login/'
 REGISTER_REDIRECT_URL = '/login/'
+
+
+#Email settings, used in views.send_reservation_email and email.html
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'julianwf12@gmail.com'
+EMAIL_HOST_PASSWORD = 'joymusdgacronxex'
+EMAIL_USE_TLS = True

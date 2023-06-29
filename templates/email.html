@@ -1,5 +1,17 @@
-{{ sport_res }}
-{{ court_res }}
-{{ shift_res }}
-{{ rate_res }}
-{{ player_res }}
+<body style="text-align: center;">
+    
+    <div style="border: solid 1px blue; width: 40% ; text-align: center;">
+    
+        <h1 style="text-decoration: underline blue;">Ha recibido una reserva!!</h1>
+        
+        
+        <h3>Deporte: {{ sport_res }}</h3>
+        <h3>Cancha: {{ court_res }}</h3>
+        <h3>Tarifa: {{ rate_res }}</h3>
+        <h3>Dia: {{ day_shift }}</h3>
+        <h3>Horario: {{ shift_res }}</h3>
+        <h3>Jugador: {{ player_res }}</h3>
+    
+    
+    </div>
+</body>
