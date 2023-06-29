@@ -12,8 +12,28 @@
                 </div>
                 <form action="{% url 'canchas:reservation2' shift.id %}" method="POST">
                     {% csrf_token %}
-                    <div class="modal-body text-center">
-                        {{ form.as_p }}
+                    <div class="form-group text-center">
+                        <div class="form-group mt-3">
+                            <label for="sport_res" name="sport_res">Deporte:</label>
+                            {{ form.sport_res }}
+                        </div>
+                        <div class="form-group">
+                            <label for="court_res" name="court_res">Cancha:</label>
+                            {{ form.court_res }}
+                        </div>
+                        <div class="form_group">
+                            <label for="shift_res" name="shift_res">Turno:</label>
+                            {{ form.shift_res }}
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="rate_res" name="rate_res">Tarifa:</label>
+                            {{ form.rate_res }}
+                        </div>
+                        <div class="form-group">
+                            <label for="player_res" name="player_res">Jugador:</label>
+                            {{ form.player_res }}
+                        </div>
+                        
                     </div>
                     <div class="modal-footer d-flex justify-content-center">
                         <button type="submit" class="btn btn-primary">Reservar</button>

@@ -32,7 +32,7 @@
                   </thead>
                   <tbody>
                     {% for shift in shifts %}
-                      {% if shift.court_shift.sport_court.name == 'Paddel' and shift.day_shift >= today %}
+                      {% if shift.court_shift.sport_court.name == 'Paddel' and shift.day_shift >= today and shift.status == '1' %}
                           <tr>
                             <td>{{ shift.hour }}</td>
                             <td>{{ shift.court_shift.name_court }}</td>

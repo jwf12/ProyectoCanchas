@@ -8,6 +8,7 @@ from .models import Sports, Player,  Shift, Reservation, Court
 from .forms import ReservationForm, RegistroForm
 from .filters import SearchFilter
 from datetime import date
+from utils.utils import reservation_status
 
 
 
@@ -64,11 +65,16 @@ class CreateReservation2(generic.CreateView, LoginRequiredMixin):
             'sport_res': shift.court_shift.sport_court,
             'court_res': shift.court_shift,
             'shift_res': shift,
+            'rate_res': shift.court_shift.rate,
             'player_res': self.request.user,
         }
         return kwargs
 
     def form_valid(self, form):
+        #change the reservation status to 'reservado', function in utils  ---- joymusdgacronxex
+        shift_id = self.kwargs['shift_id']
+        reservation_status(shift_id)
+
         response = super().form_valid(form)
         messages.success(self.request, 'Reserva creada')
         return response

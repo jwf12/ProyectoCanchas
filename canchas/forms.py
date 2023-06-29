@@ -11,6 +11,7 @@ class ReservationForm(forms.ModelForm):
             'sport_res',
             'court_res',
             'shift_res',
+            'rate_res',
             'player_res',
         ]
 

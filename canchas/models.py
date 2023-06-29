@@ -48,8 +48,13 @@ class Reservation(models.Model):
     sport_res = models.ForeignKey(Sports, on_delete=models.CASCADE)
     court_res = models.ForeignKey(Court, on_delete=models.CASCADE)
     shift_res = models.ForeignKey(Shift, on_delete=models.CASCADE)
+    rate_res = models.IntegerField()
     player_res = models.ForeignKey(Player, on_delete=models.CASCADE)
     
+    def save(self, *args, **kwargs):
+        self.rate_res = self.court_res.rate
+        super().save(*args, **kwargs)
+
 
 
 
