@@ -15,6 +15,9 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
+from django.urls import reverse
+from django.shortcuts import render
+from paypal.standard.forms import PayPalPaymentsForm
 
 
 class IndexView(generic.ListView):
@@ -61,7 +64,6 @@ class CreateReservation2(generic.CreateView, LoginRequiredMixin):
         context['shift'] = Shift.objects.get(id=shift_id)
         return context
     
-    
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         shift_id = self.kwargs['shift_id']
@@ -105,8 +107,7 @@ class CreateReservation2(generic.CreateView, LoginRequiredMixin):
         )
         email.attach_alternative(html_content, 'text/html')
         email.send()
-
-
+    
     def form_valid(self, form):
         #change the reservation status to 'reservado', function in utils  ---- 
         shift_id = self.kwargs['shift_id']
@@ -123,6 +124,24 @@ class CreateReservation2(generic.CreateView, LoginRequiredMixin):
         messages.error(self.request, 'error')
         return super().form_invalid(form)
 
+
+def view_that_asks_for_money(request):
+    # What you want the button to do.
+    paypal_dict = {
+        "business": "receiver_email@example.com",
+        "amount": "10000000.00",
+        "item_name": "name of the item",
+        "invoice": "unique-invoice-id",
+        "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
+        "return": request.build_absolute_uri(reverse('your-return-view')),
+        "cancel_return": request.build_absolute_uri(reverse('your-cancel-view')),
+        "custom": "premium_plan",  # Custom command to correlate to some function later (optional)
+    }
+
+    # Create the instance.
+    paypal = PayPalPaymentsForm(initial=paypal_dict)
+    context = {"paypal": paypal}
+    return render(request, "reservation.html", context)
 
 
 class CustomLoginView(LoginView):

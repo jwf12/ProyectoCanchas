@@ -43,10 +43,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'canchas',
-
+    
+    #
     'widget_tweaks',
     'django_filters',
+    'paypal.standard.ipn',
 ]
+
+PAYPAL_TEST = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
