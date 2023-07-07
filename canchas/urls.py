@@ -3,6 +3,7 @@ from django.contrib.auth import views as auth_views
 from .views import IndexView, CustomLoginView, SingUpView, CreateReservation2
 
 
+
 app_name = 'canchas'
 
 urlpatterns = [
@@ -18,4 +19,5 @@ urlpatterns = [
 
 
     path('paypal/', include("paypal.standard.ipn.urls")),
+
 ]
