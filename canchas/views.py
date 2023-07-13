@@ -15,10 +15,6 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
-from django.urls import reverse
-from django.shortcuts import render
-from paypal.standard.forms import PayPalPaymentsForm
-
 
 
 class IndexView(generic.ListView):
@@ -62,20 +58,7 @@ class CreateReservation2(generic.CreateView, LoginRequiredMixin):
         context = super().get_context_data(**kwargs)
         context['player'] = self.request.user
         shift_id = self.kwargs['shift_id']
-        shift = Shift.objects.get(id=shift_id)
-        context['shift'] = shift
-        paypal_dict = {
-            "business": "sb-fcihl26614756@business.example.com",
-            "amount": shift.court_shift.rate / 2,
-            "item_name": f'Cancha: {shift.court_shift.name_court} - Hora: {shift.hour}',
-            "invoice": shift.id,
-            "return_url": self.request.build_absolute_uri(reverse('canchas:index')),
-            "custom": "premium_plan",  # Custom command to correlate to some function later (optional)
-        }
-
-        # Create the instance.
-        paypal = PayPalPaymentsForm(initial=paypal_dict)
-        context['paypal'] = paypal
+        context['shift'] = Shift.objects.get(id=shift_id)
         return context
     
     def get_form_kwargs(self):

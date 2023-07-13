@@ -1,6 +1,8 @@
 from django.urls import path, include
+from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from .views import IndexView, CustomLoginView, SingUpView, CreateReservation2
+
 
 
 app_name = 'canchas'
@@ -17,5 +19,5 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name = 'login.html'), name='logout'),
 
 
-    path('paypal/', include("paypal.standard.ipn.urls")),
+    
 ]
