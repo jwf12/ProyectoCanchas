@@ -31,7 +31,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+PAYPAL_TEST = True
 # Application definition
 
 INSTALLED_APPS = [
@@ -43,10 +43,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'canchas',
-
+    
+    #
     'widget_tweaks',
     'django_filters',
+    'paypal.standard.ipn',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

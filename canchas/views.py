@@ -15,6 +15,10 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
+from django.urls import reverse
+from django.shortcuts import render
+from paypal.standard.forms import PayPalPaymentsForm
+
 
 
 class IndexView(generic.ListView):
@@ -58,9 +62,21 @@ class CreateReservation2(generic.CreateView, LoginRequiredMixin):
         context = super().get_context_data(**kwargs)
         context['player'] = self.request.user
         shift_id = self.kwargs['shift_id']
-        context['shift'] = Shift.objects.get(id=shift_id)
+        shift = Shift.objects.get(id=shift_id)
+        context['shift'] = shift
+        paypal_dict = {
+            "business": "sb-fcihl26614756@business.example.com",
+            "amount": shift.court_shift.rate / 2,
+            "item_name": f'Cancha: {shift.court_shift.name_court} - Hora: {shift.hour}',
+            "invoice": shift.id,
+            "return_url": self.request.build_absolute_uri(reverse('canchas:index')),
+            "custom": "premium_plan",  # Custom command to correlate to some function later (optional)
+        }
+
+        # Create the instance.
+        paypal = PayPalPaymentsForm(initial=paypal_dict)
+        context['paypal'] = paypal
         return context
-    
     
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -76,6 +92,7 @@ class CreateReservation2(generic.CreateView, LoginRequiredMixin):
         return kwargs
     
     def send_reservation_email(self):
+
         shift_id = self.kwargs['shift_id']
         shift = Shift.objects.get(pk=shift_id)
 
@@ -105,8 +122,7 @@ class CreateReservation2(generic.CreateView, LoginRequiredMixin):
         )
         email.attach_alternative(html_content, 'text/html')
         email.send()
-
-
+    
     def form_valid(self, form):
         #change the reservation status to 'reservado', function in utils  ---- 
         shift_id = self.kwargs['shift_id']
@@ -122,6 +138,7 @@ class CreateReservation2(generic.CreateView, LoginRequiredMixin):
     def form_invalid(self, form):
         messages.error(self.request, 'error')
         return super().form_invalid(form)
+
 
 
 
