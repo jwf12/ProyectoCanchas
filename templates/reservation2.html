@@ -5,7 +5,7 @@
   
 <div class="container">
     <div class="row">
-        <div class="col text-center d-flex justify-content-center mb-4">
+        <div class="col text-center d-flex justify-content-center">
             <div class="card" style="width: 18rem;">
                 <div class="card-header">
                   <h4>Informacion de la reserva</h4>
@@ -35,19 +35,14 @@
                         </div>
                         
                     </div>
-                    <div class="modal-footer d-flex justify-content-center">
-                        <p class="mb-3" style="font-size: 12px; color: rgb(73, 73, 73);"> 
-                            <strong style="font-size: 14px; color: rgb(197, 49, 49);">Importante:</strong> <br>
-                            Para efectuar la reserva debe abonar el 50% de la tarifa. <br>
-                            Realice el pago y luego aprete el boton debajo del comprobante de pago <strong>"volver al sitio web" </strong> 
-                            y confirmar la reserva.                        
+                    <div class="modal-footer d-flex flex-column justify-content-center ">
+                        <p class="mb-3"> 
+                            <strong style="font-size: 14px; color: rgb(197, 49, 49);">confirme la reserva</strong>                       
                         </p>
+                        
+                        <button type="submit" class="btn btn-primary">Reservar</button>
                     </div>
                 </form>
-                <div class="paypal mb-2">
-                    {{ paypal.render }}
-                </div>
-                    
                     
                 </div>
             </div>

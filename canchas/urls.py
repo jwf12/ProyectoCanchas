@@ -10,7 +10,7 @@ urlpatterns = [
     path('', IndexView.as_view(template_name='index.html'), {'room_name': 'padel'}, name='index'),
     path('tenis/', IndexView.as_view(template_name='tenis.html'), {'room_name': 'tenis'}, name='tenis'),
     path('createreservation/<int:shift_id>/', CreateReservation2.as_view(), name='reservation2'),
-    
+    path('createreservation2/<int:shift_id>/', CreateReservation2.as_view(template_name='reservation2.html'), name='reservation3'),
     
 
     path('login/', CustomLoginView.as_view(template_name = 'login.html'), name = 'login'),

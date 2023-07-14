@@ -20,7 +20,6 @@ from django.shortcuts import render
 from paypal.standard.forms import PayPalPaymentsForm
 
 
-
 class IndexView(generic.ListView):
     model = Shift
     context_object_name = 'shifts'
@@ -69,8 +68,7 @@ class CreateReservation2(generic.CreateView, LoginRequiredMixin):
             "amount": shift.court_shift.rate / 2,
             "item_name": f'Cancha: {shift.court_shift.name_court} - Hora: {shift.hour} - Day: {shift.day_shift}',
             "invoice": shift.id,
-            "return_url": self.request.build_absolute_uri(reverse('canchas:index')),
-            "custom": "premium_plan",  # Custom command to correlate to some function later (optional)
+            "return": self.request.build_absolute_uri(reverse('canchas:reservation3', kwargs={'shift_id': shift.id})),
         }
 
         # Create the instance.
@@ -115,7 +113,7 @@ class CreateReservation2(generic.CreateView, LoginRequiredMixin):
         text_content = strip_tags(html_content)
 
         email = EmailMultiAlternatives(
-            subject='Subject del correo',
+            subject=subject,
             body=text_content,
             from_email=settings.EMAIL_HOST_USER,
             to=['julianwf12@gmail.com']
@@ -140,10 +138,7 @@ class CreateReservation2(generic.CreateView, LoginRequiredMixin):
         return super().form_invalid(form)
 
 
-
-
 class CustomLoginView(LoginView):
-
     def form_invalid(self, form):
         messages.error(self.request, 'Credenciales no validas.')        
         return super().form_invalid(form)
@@ -153,7 +148,6 @@ class SingUpView(CreateView):
     form_class = RegistroForm
     success_url = reverse_lazy('canchas:login')
     template_name = 'register.html'
-    
 
     def form_valid(self, form):        
         response = super().form_valid(form)
@@ -164,3 +158,4 @@ class SingUpView(CreateView):
         response = super().form_invalid(form)
         messages.error(self.request, 'Las contraseñas no coinciden.')        
         return response
+    
