@@ -46,7 +46,6 @@ Si desea contribuir a este proyecto, envíe un pull request con sus cambios.
 </p>
 <p align="left">
 <img src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/bootstrap/bootstrap.png"  width=8% height=8%>
-<img src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/javascript/javascript.png"  width=8% height=8%>
 </p>
 
 
