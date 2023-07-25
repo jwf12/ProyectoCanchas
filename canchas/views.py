@@ -20,7 +20,7 @@ from django.shortcuts import render
 from paypal.standard.forms import PayPalPaymentsForm
 
 
-class IndexView(generic.ListView):
+class IndexView(LoginRequiredMixin, generic.ListView):
     model = Shift
     context_object_name = 'shifts'
 
@@ -50,7 +50,7 @@ class IndexView(generic.ListView):
         }
 
 
-class CreateReservation2(generic.CreateView, LoginRequiredMixin):
+class CreateReservation2(LoginRequiredMixin, generic.CreateView):
     model = Reservation
     template_name = 'reservation.html'
     context_object_name = 'reservation'
@@ -90,10 +90,9 @@ class CreateReservation2(generic.CreateView, LoginRequiredMixin):
         return kwargs
     
     def send_reservation_email(self):
-
         shift_id = self.kwargs['shift_id']
         shift = Shift.objects.get(pk=shift_id)
-
+        mail = self.request.user.email
         sport_res = shift.court_shift.sport_court
         court_res = shift.court_shift
         shift_res = shift
@@ -101,6 +100,8 @@ class CreateReservation2(generic.CreateView, LoginRequiredMixin):
         player_res = self.request.user
         day_shift = shift.day_shift
         subject = f'Reserva cancha de {shift.court_shift.sport_court}'
+
+        print(mail)
 
         html_content = render_to_string('email.html', {
         'sport_res': sport_res,
@@ -116,16 +117,18 @@ class CreateReservation2(generic.CreateView, LoginRequiredMixin):
             subject=subject,
             body=text_content,
             from_email=settings.EMAIL_HOST_USER,
-            to=['julianwf12@gmail.com']
+            to=['julianwf12@gmail.com', self.request.user.email]
         )
         email.attach_alternative(html_content, 'text/html')
+        print(self.request.user.email)
         email.send()
     
     def form_valid(self, form):
         #change the reservation status to 'reservado', function in utils  ---- 
         shift_id = self.kwargs['shift_id']
         reservation_status(shift_id)
-
+        print(self.request.user.email)
+        
         # sends an email when the reservation its completed to the owner of the court
         self.send_reservation_email()
 

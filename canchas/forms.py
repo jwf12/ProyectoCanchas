@@ -26,6 +26,7 @@ class RegistroForm(UserCreationForm):
         ('1','Female'),
         ('2', 'Male')
     )
+    email = forms.EmailField(required=True)
     sex = forms.TypedChoiceField(label='Sex', choices=SEX_OPTION, coerce=str)
     password1 = forms.CharField(label='password',widget = forms.PasswordInput, required=True)
     password2 = forms.CharField(label='confirm-password',widget = forms.PasswordInput, required=True)
@@ -38,6 +39,7 @@ class RegistroForm(UserCreationForm):
             'first_name',
             'last_name',
             'age',
+            'email',
             'sex',
             'password1',
             'password2',        
