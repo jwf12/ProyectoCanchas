@@ -110,6 +110,7 @@ class CreateReservation2(LoginRequiredMixin, generic.CreateView):
         'rate_res': rate_res,
         'player_res': player_res,
         'day_shift': day_shift,
+        'saldo': shift.court_shift.rate / 2
     })
         text_content = strip_tags(html_content)
 
@@ -117,17 +118,15 @@ class CreateReservation2(LoginRequiredMixin, generic.CreateView):
             subject=subject,
             body=text_content,
             from_email=settings.EMAIL_HOST_USER,
-            to=['julianwf12@gmail.com', self.request.user.email]
+            to=['julianwf12@gmail.com', mail]
         )
         email.attach_alternative(html_content, 'text/html')
-        print(self.request.user.email)
         email.send()
     
     def form_valid(self, form):
         #change the reservation status to 'reservado', function in utils  ---- 
         shift_id = self.kwargs['shift_id']
         reservation_status(shift_id)
-        print(self.request.user.email)
         
         # sends an email when the reservation its completed to the owner of the court
         self.send_reservation_email()
